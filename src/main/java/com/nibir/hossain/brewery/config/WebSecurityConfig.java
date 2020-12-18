@@ -4,6 +4,7 @@ package com.nibir.hossain.brewery.config;
  * Created by Nibir Hossain on 18.12.20
  */
 
+import com.nibir.hossain.brewery.security.CustomPasswordEncoderFactories;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return CustomPasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Override
