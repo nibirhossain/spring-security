@@ -7,6 +7,7 @@ package com.nibir.hossain.brewery.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -38,6 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .httpBasic();
     }
 
+    /**
     @Override
     @Bean
     protected UserDetailsService userDetailsService() {
@@ -54,5 +56,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .build();
 
         return new InMemoryUserDetailsManager(admin, user);
+    }
+    */
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .inMemoryAuthentication()
+                .withUser("nibir")
+                .password("{noop}hossain")
+                .roles("ADMIN")
+                .and()
+                .withUser("sajib")
+                .password("{noop}mohammad")
+                .roles("USER");
     }
 }
