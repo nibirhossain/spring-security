@@ -99,7 +99,7 @@ class BeerControllerTest {
     void showBeer() throws Exception{
 
         when(beerRepository.findById(uuid)).thenReturn(Optional.of(Beer.builder().id(uuid).build()));
-        mockMvc.perform(get("/beers/"+uuid))
+        mockMvc.perform(get("/beers/" + uuid))
                 .andExpect(status().isOk())
                 .andExpect(view().name("beers/beerDetails"))
                 .andExpect(model().attribute("beer", hasProperty("id", is(uuid))));
