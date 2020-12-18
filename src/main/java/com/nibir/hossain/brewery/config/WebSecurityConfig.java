@@ -5,6 +5,7 @@ package com.nibir.hossain.brewery.config;
  */
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,8 +18,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
            .authorizeRequests(authorize -> {
-               authorize.antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll();
-               authorize.antMatchers("/beers/find", "/beers*").permitAll();
+               authorize
+                       .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
+                       .antMatchers("/beers/find", "/beers*").permitAll()
+                       .antMatchers(HttpMethod.GET, "/api/v1/beers/**").permitAll();
            })
            .authorizeRequests()
            .anyRequest()

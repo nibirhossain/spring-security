@@ -46,7 +46,7 @@ public class BeerRestController {
 
     private final BeerService beerService;
 
-    @GetMapping(produces = { "application/json" }, path = "beer")
+    @GetMapping(produces = { "application/json" }, path = "beers")
     public ResponseEntity<BeerPagedList> listBeers(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                    @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                    @RequestParam(value = "beerName", required = false) String beerName,
@@ -72,7 +72,7 @@ public class BeerRestController {
         return new ResponseEntity<>(beerList, HttpStatus.OK);
     }
 
-    @GetMapping(path = {"beer/{beerId}"}, produces = { "application/json" })
+    @GetMapping(path = {"beers/{beerId}"}, produces = { "application/json" })
     public ResponseEntity<BeerDto> getBeerById(@PathVariable("beerId") UUID beerId,
                                                @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand){
 
@@ -90,7 +90,7 @@ public class BeerRestController {
         return new ResponseEntity<>(beerService.findBeerByUpc(upc), HttpStatus.OK);
     }
 
-    @PostMapping(path = "beer")
+    @PostMapping(path = "beers")
     public ResponseEntity saveNewBeer(@Valid @RequestBody BeerDto beerDto){
 
         BeerDto savedDto = beerService.saveBeer(beerDto);
@@ -103,7 +103,7 @@ public class BeerRestController {
         return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
     }
 
-    @PutMapping(path = {"beer/{beerId}"}, produces = { "application/json" })
+    @PutMapping(path = {"beers/{beerId}"}, produces = { "application/json" })
     public ResponseEntity updateBeer(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerDto beerDto){
 
         beerService.updateBeer(beerId, beerDto);
@@ -111,7 +111,7 @@ public class BeerRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping({"beer/{beerId}"})
+    @DeleteMapping({"beers/{beerId}"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBeer(@PathVariable("beerId") UUID beerId){
         beerService.deleteById(beerId);
