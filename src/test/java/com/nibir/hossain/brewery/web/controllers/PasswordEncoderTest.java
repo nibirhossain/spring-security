@@ -1,15 +1,18 @@
 package com.nibir.hossain.brewery.web.controllers;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.DigestUtils;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /*
  * Created by Nibir Hossain on 18.12.20
  */
 public class PasswordEncoderTest {
-    private static final String PASSWORD = "password";
+    private static final String PASSWORD = "mohammad";
 
     @Test
     void testHashing() {
@@ -22,7 +25,16 @@ public class PasswordEncoderTest {
 
     @Test
     void testNoop() {
-        PasswordEncoder passwordEncoder = NoOpPasswordEncoder.getInstance();
-        System.out.println(passwordEncoder.encode(PASSWORD));
+        PasswordEncoder noop = NoOpPasswordEncoder.getInstance();
+        System.out.println(noop.encode(PASSWORD));
+    }
+
+    @Test
+    void testLdap() {
+        PasswordEncoder ldap = new LdapShaPasswordEncoder();
+        System.out.println(ldap.encode(PASSWORD));
+        System.out.println(ldap.encode(PASSWORD));
+
+        assertTrue(ldap.matches(PASSWORD, ldap.encode(PASSWORD)));
     }
 }
