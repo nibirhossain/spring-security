@@ -1,6 +1,7 @@
 package com.nibir.hossain.brewery.web.controllers;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Created by Nibir Hossain on 18.12.20
  */
 public class PasswordEncoderTest {
-    private static final String PASSWORD = "hossain";
+    private static final String PASSWORD = "mohammad";
 
     @Test
     void testHashing() {
@@ -44,5 +45,12 @@ public class PasswordEncoderTest {
         PasswordEncoder sha256 = new StandardPasswordEncoder();
         System.out.println(sha256.encode(PASSWORD));
         System.out.println(sha256.encode(PASSWORD));
+    }
+
+    @Test
+    void testBcrypt() {
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        System.out.println(bcrypt.encode(PASSWORD));
+        System.out.println(bcrypt.encode(PASSWORD));
     }
 }
