@@ -31,7 +31,7 @@ public class BreweryControllerIT extends BaseIT {
     void listBreweriesWithAdminRole() throws Exception {
         mockMvc.perform(get("/brewery/breweries")
                 .with(httpBasic("nibir", "hossain")))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is2xxSuccessful());
     }
     
     @Test
@@ -58,7 +58,7 @@ public class BreweryControllerIT extends BaseIT {
     void listBreweriesJsonWithAdminRole() throws Exception {
         mockMvc.perform(get("/brewery/api/v1/breweries")
                 .with(httpBasic("nibir", "hossain")))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test
