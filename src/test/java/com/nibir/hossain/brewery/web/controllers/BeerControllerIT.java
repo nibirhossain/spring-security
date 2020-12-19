@@ -67,8 +67,6 @@ public class BeerControllerIT extends BaseIT {
     @Test
     void findBeersWithAnonymous() throws Exception{
         mockMvc.perform(get("/beers/find").with(anonymous()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("beers/findBeers"))
-                .andExpect(model().attributeExists("beer"));
+                .andExpect(status().isUnauthorized());
     }
 }

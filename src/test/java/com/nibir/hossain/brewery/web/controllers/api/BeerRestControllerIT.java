@@ -2,7 +2,6 @@ package com.nibir.hossain.brewery.web.controllers.api;
 
 import com.nibir.hossain.brewery.web.controllers.BaseIT;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
@@ -48,19 +47,22 @@ public class BeerRestControllerIT extends BaseIT {
 
     @Test
     void findBeers() throws Exception {
-        mockMvc.perform(get("/api/v1/beers"))
+        mockMvc.perform(get("/api/v1/beers")
+                .with(httpBasic("sajib", "mohammad")))
                 .andExpect(status().isOk());
     }
 
     @Test
     void findBeerById() throws Exception {
-        mockMvc.perform(get("/api/v1/beers/" + UUID.randomUUID()))
+        mockMvc.perform(get("/api/v1/beers/" + UUID.randomUUID())
+                .with(httpBasic("sajib", "mohammad")))
                 .andExpect(status().isOk());
     }
 
     @Test
     void findBeerByUpc() throws Exception {
-        mockMvc.perform(get("/api/v1/beerUpc/656454"))
+        mockMvc.perform(get("/api/v1/beerUpc/656454")
+                .with(httpBasic("sajib", "mohammad")))
                 .andExpect(status().isOk());
     }
 }
