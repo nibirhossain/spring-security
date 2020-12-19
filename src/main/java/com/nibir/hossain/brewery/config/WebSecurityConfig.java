@@ -27,7 +27,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -46,8 +46,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 .hasAnyRole("ADMIN", "CUSTOMER", "USER")
                             .antMatchers(HttpMethod.GET, "/api/v1/beers/**")
                                 .hasAnyRole("ADMIN", "CUSTOMER", "USER")
-                            .mvcMatchers(HttpMethod.DELETE, "/api/v1/beers/**")
-                                .hasRole("ADMIN")
                             .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}")
                                 .hasAnyRole("ADMIN", "CUSTOMER", "USER")
                             .mvcMatchers("/brewery/breweries")
