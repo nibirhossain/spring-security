@@ -35,21 +35,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
-           .authorizeRequests(authorize -> {
-               authorize
-                       .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
-                       .antMatchers("/beers/find", "/beers*").permitAll()
-                       .antMatchers(HttpMethod.GET, "/api/v1/beers/**").permitAll().antMatchers();
-               authorize.mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll();
-           })
-           .authorizeRequests()
-           .anyRequest()
-            .authenticated()
-            .and()
-            .formLogin()
-            .and()
-            .httpBasic();
+                .authorizeRequests(authorize -> {
+                    authorize
+                            .antMatchers("/h2-console/**").permitAll() //do not use in production!
+                            .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
+                            .antMatchers("/beers/find", "/beers*").permitAll()
+                            .antMatchers(HttpMethod.GET, "/api/v1/beers/**").permitAll()
+                            .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll();
+                } )
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().and()
+                .httpBasic()
+                .and().csrf().disable();
+
+        //h2 console config
+        http.headers().frameOptions().sameOrigin();
     }
 
     /**
@@ -72,6 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     */
 
+    /**
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -85,4 +90,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("USER");
         auth.inMemoryAuthentication().withUser("salma").password("{ldap}{SSHA}eibik5sApe4hWP+WSemuKOikwTrWIReT5DtyyQ==").roles("CUSTOMER");
     }
+    */
 }
