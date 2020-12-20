@@ -109,7 +109,7 @@ public class CustomerController {
           model.addAttribute("customer", customerRepository.findById(customerId).get());
        return "customers/createOrUpdateCustomer";
    }
-   
+
    @CustomerUpdatePermission
    @PostMapping("/{beerId}/edit")
    public String processUpdationForm(@Valid Customer customer, BindingResult result) {

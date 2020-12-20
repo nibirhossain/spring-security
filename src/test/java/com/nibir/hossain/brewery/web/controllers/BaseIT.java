@@ -3,6 +3,7 @@ package com.nibir.hossain.brewery.web.controllers;
 import com.nibir.hossain.brewery.repositories.BeerInventoryRepository;
 import com.nibir.hossain.brewery.repositories.BeerRepository;
 import com.nibir.hossain.brewery.repositories.CustomerRepository;
+import com.nibir.hossain.brewery.services.BeerOrderService;
 import com.nibir.hossain.brewery.services.BeerService;
 import com.nibir.hossain.brewery.services.BreweryService;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +37,8 @@ public abstract class BaseIT {
     private CustomerRepository customerRepository;
     @MockBean
     private BeerService beerService;
+    @MockBean
+    private BeerOrderService beerOrderService;
     protected MockMvc mockMvc;
 
     @BeforeEach
