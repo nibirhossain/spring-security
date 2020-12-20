@@ -37,7 +37,7 @@ public class UserDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if(authorityRepository.count() == 0) {
-            loadSecurityData();
+            // loadSecurityData();
         }
     }
 
