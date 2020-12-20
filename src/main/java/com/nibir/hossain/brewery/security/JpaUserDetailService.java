@@ -1,4 +1,4 @@
-package com.nibir.hossain.brewery.repositories.security;
+package com.nibir.hossain.brewery.security;
 
 /*
  * Created by Nibir Hossain on 19.12.20
@@ -6,6 +6,7 @@ package com.nibir.hossain.brewery.repositories.security;
 
 import com.nibir.hossain.brewery.domain.security.Authority;
 import com.nibir.hossain.brewery.domain.security.CustomUser;
+import com.nibir.hossain.brewery.repositories.security.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

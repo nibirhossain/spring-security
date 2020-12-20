@@ -17,6 +17,10 @@
 
 package com.nibir.hossain.brewery.web.controllers.api;
 
+import com.nibir.hossain.brewery.security.permissions.BeerCreatePermission;
+import com.nibir.hossain.brewery.security.permissions.BeerDeletePermission;
+import com.nibir.hossain.brewery.security.permissions.BeerReadPermission;
+import com.nibir.hossain.brewery.security.permissions.BeerUpdatePermission;
 import com.nibir.hossain.brewery.services.BeerService;
 import com.nibir.hossain.brewery.web.model.BeerDto;
 import com.nibir.hossain.brewery.web.model.BeerPagedList;
@@ -47,7 +51,7 @@ public class BeerRestController {
 
     private final BeerService beerService;
 
-    @PreAuthorize("hasAuthority('beer.read')")
+    @BeerReadPermission
     @GetMapping(produces = { "application/json" }, path = "beers")
     public ResponseEntity<BeerPagedList> listBeers(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                    @RequestParam(value = "pageSize", required = false) Integer pageSize,
@@ -74,7 +78,7 @@ public class BeerRestController {
         return new ResponseEntity<>(beerList, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('beer.read')")
+    @BeerReadPermission
     @GetMapping(path = {"beers/{beerId}"}, produces = { "application/json" })
     public ResponseEntity<BeerDto> getBeerById(@PathVariable("beerId") UUID beerId,
                                                @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand){
@@ -88,13 +92,13 @@ public class BeerRestController {
         return new ResponseEntity<>(beerService.findBeerById(beerId, showInventoryOnHand), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('beer.read')")
+    @BeerReadPermission
     @GetMapping(path = {"beerUpc/{upc}"}, produces = { "application/json" })
     public ResponseEntity<BeerDto> getBeerByUpc(@PathVariable("upc") String upc){
         return new ResponseEntity<>(beerService.findBeerByUpc(upc), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('beer.create')")
+    @BeerCreatePermission
     @PostMapping(path = "beers")
     public ResponseEntity saveNewBeer(@Valid @RequestBody BeerDto beerDto){
 
@@ -108,7 +112,7 @@ public class BeerRestController {
         return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAuthority('beer.update')")
+    @BeerUpdatePermission
     @PutMapping(path = {"beers/{beerId}"}, produces = { "application/json" })
     public ResponseEntity updateBeer(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerDto beerDto){
 
@@ -117,7 +121,7 @@ public class BeerRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PreAuthorize("hasAuthority('beer.delete')")
+    @BeerDeletePermission
     @DeleteMapping({"beers/{beerId}"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBeer(@PathVariable("beerId") UUID beerId){
