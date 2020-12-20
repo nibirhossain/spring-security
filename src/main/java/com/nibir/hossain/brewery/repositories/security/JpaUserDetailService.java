@@ -9,7 +9,6 @@ import com.nibir.hossain.brewery.domain.security.CustomUser;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -40,7 +39,7 @@ public class JpaUserDetailService implements UserDetailsService {
                 user.getPassword(),
                 user.getEnabled(),
                 user.getAccountNonExpired(),
-                user.getCredentialNonExpired(),
+                user.getCredentialsNonExpired(),
                 user.getAccountNonLocked(),
                 convertToSpringAuthorities(user.getAuthorities())
         );
@@ -52,7 +51,7 @@ public class JpaUserDetailService implements UserDetailsService {
         }
 
         return authorities.stream()
-                .map(Authority::getRole)
+                .map(Authority::getPermission)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
     }
