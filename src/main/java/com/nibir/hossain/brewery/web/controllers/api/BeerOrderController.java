@@ -4,12 +4,16 @@ package com.nibir.hossain.brewery.web.controllers.api;
  * Created by Nibir Hossain on 20.12.20
  */
 
+import com.nibir.hossain.brewery.security.permissions.BeerOrderCreatePermission;
+import com.nibir.hossain.brewery.security.permissions.BeerOrderPickupPermission;
+import com.nibir.hossain.brewery.security.permissions.BeerOrderReadPermission;
 import com.nibir.hossain.brewery.services.BeerOrderService;
 import com.nibir.hossain.brewery.web.model.BeerOrderDto;
 import com.nibir.hossain.brewery.web.model.BeerOrderPagedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +28,7 @@ public class BeerOrderController {
     @Autowired
     private BeerOrderService beerOrderService;
 
+    @BeerOrderReadPermission
     @GetMapping(path = "orders")
     public BeerOrderPagedList listOrders(@PathVariable("customerId") UUID customerId,
                                          @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
@@ -33,23 +38,26 @@ public class BeerOrderController {
         }
 
         if(pageSize == null || pageSize <= 0) {
-            pageSize = DEFAULT_PAGE_NUMBER;
+            pageSize = DEFAULT_PAGE_SIZE;
         }
 
         return beerOrderService.listOrders(customerId, PageRequest.of(pageNumber, pageSize));
     }
 
+    @BeerOrderCreatePermission
     @PostMapping(path = "orders")
     @ResponseStatus(HttpStatus.CREATED)
     public BeerOrderDto placeOrder(@PathVariable("customerId") UUID customerId, @Validated @RequestBody BeerOrderDto beerOrderDto) {
         return beerOrderService.placeOrder(customerId, beerOrderDto);
     }
 
+    @BeerOrderReadPermission
     @GetMapping(path = "orders/{orderId}")
     public BeerOrderDto getOrder(@PathVariable("customerId") UUID customerId, @PathVariable("orderId") UUID orderId) {
         return beerOrderService.getOrderById(customerId, orderId);
     }
 
+    @BeerOrderPickupPermission
     @PutMapping(path = "orders/{orderId}/pickup")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void pickupOrder(@PathVariable("customerId") UUID customerId, @PathVariable("orderId") UUID orderId) {
